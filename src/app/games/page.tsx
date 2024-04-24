@@ -1,20 +1,20 @@
 import Image from "next/image";
 
-import { IGamesCollection } from "~/types/collections";
+import { IGames } from "~/types/collections";
 
 const getGames = async () => {
-  const response = await fetch("http://localhost:3000/api/games");
-  return (await response.json()) as {
-    games: (IGamesCollection & { id: string })[];
-  };
+  const response = await fetch(`${process.env.PUBLIC_HOST}/api/games`);
+  return response.json() as Promise<{
+    games: IGames[];
+  }>;
 };
 
 export default async function Games() {
   const { games } = await getGames();
   return (
-    <main className="flex flex-col gap-4 p-4">
-      <h1 className="text-4xl">Jogos Cadastrados</h1>
-      <div className="flex gap-4">
+    <main className="flex flex-col gap-4 p-4 m-auto max-w-screen-xl">
+      <h1 className="font-bold text-4xl">Jogos Cadastrados</h1>
+      <div className="flex flex-wrap gap-4">
         {games.map((game) => (
           <div
             key={game.id}
@@ -24,7 +24,7 @@ export default async function Games() {
             group
             h-64
             hover:scale-105
-            items-end
+            items-center
             justify-center
             overflow-hidden
             pb-2
@@ -36,22 +36,31 @@ export default async function Games() {
           >
             <span
               className="
+              text-center
               duration-500
+              bg-gray-800/75
+              group-hover:opacity-100
               group-hover:translate-y-0
               group-hover:scale-105
+              opacity-0
+              p-1
               select-none
               text-2xl
-              transition-transform
+              transition-all
               translate-y-10
+              w-full
               z-10"
             >
               {game.name}
             </span>
             <Image
-              className="aspect-[4/3]"
+              className="
+                transition-all
+                group-hover:blur-sm
+              "
               alt={game.name}
-              src={game.image}
               fill
+              src={game.image}
             />
           </div>
         ))}
