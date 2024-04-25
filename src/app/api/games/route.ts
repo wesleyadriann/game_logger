@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDocs } from "firebase/firestore";
 
-import { gamesCollection } from "~/app/services/firebase";
+import { gamesCollection } from "~/services/firebase";
 
 export async function GET() {
   const snapshot = await getDocs(gamesCollection);

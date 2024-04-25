@@ -2,11 +2,17 @@ import Image from "next/image";
 
 import { IGames } from "~/types/collections";
 
+import { fetchApi } from "~/services/fetch";
+
 const getGames = async () => {
-  const response = await fetch(`${process.env.PUBLIC_HOST}/api/games`);
-  return response.json() as Promise<{
-    games: IGames[];
-  }>;
+  try {
+    const response = await fetchApi<{ games: IGames[] }>(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/games`
+    );
+    return response.data;
+  } catch (error) {
+    return { games: [] };
+  }
 };
 
 export default async function Games() {
