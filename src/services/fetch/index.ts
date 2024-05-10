@@ -3,7 +3,7 @@ export const fetchApi = async <T = unknown>(
 ) => {
   const mergedOptions: RequestInit = {
     ...init,
-    cache: "no-cache",
+    next: { revalidate: 3600 },
     headers: {
       "Content-Type": "application/json",
       ...init?.headers,

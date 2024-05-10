@@ -3,6 +3,7 @@ import Image from "next/image";
 import { IPlaythroughs } from "~/types/collections";
 
 import { fetchApi } from "~/services/fetch";
+import React from "react";
 
 const getPlaythroughs = async () => {
   try {
@@ -23,9 +24,8 @@ export default async function Games() {
       <h1 className="font-bold text-4xl">Playthroughs</h1>
       <div className="flex flex-wrap gap-4">
         {playthroughs.map((playthrough) => (
-          <>
+          <React.Fragment key={playthrough.id}>
             <div
-              key={playthrough.id}
               className="
                 h-28
                 overflow-hidden
@@ -40,7 +40,7 @@ export default async function Games() {
               />
             </div>
             <span>{playthrough.game.name}</span>
-          </>
+          </React.Fragment>
         ))}
       </div>
     </main>
