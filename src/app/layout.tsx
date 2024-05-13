@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body
         className={`
         bg-slate-800 
@@ -25,13 +25,16 @@ export default function RootLayout({
         text-white
         ${roboto.className}`}
       >
-        <header className="flex gap-3 m-auto max-w-screen-xl p-4 text-xl text-white/75">
-          <Link className="hover:text-white/100" href="/games">
-            Games
-          </Link>
-          <Link className="hover:text-white/100" href="/playthroughs">
-            Playthroughs
-          </Link>
+        <header className="flex justify-between m-auto max-w-screen-xl p-4 text-xl text-white/75">
+          <div className="flex gap-3">
+            <Link className="hover:text-white/100" href="/games">
+              Games
+            </Link>
+            <Link className="hover:text-white/100" href="/playthroughs">
+              Playthroughs
+            </Link>
+          </div>
+          <Link href="/admin/login">Login</Link>
         </header>
         {children}
       </body>

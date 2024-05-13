@@ -3,6 +3,7 @@ import Image from "next/image";
 import { IGames } from "~/types/collections";
 
 import { fetchApi } from "~/services/fetch";
+import { logger } from "~/utils/logger";
 
 const getGames = async () => {
   try {
@@ -10,7 +11,9 @@ const getGames = async () => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/games`
     );
     return response.data;
-  } catch (error) {
+  } catch (_error) {
+    const error = _error as Error;
+    logger("Error fetching games", error?.message);
     return { games: [] };
   }
 };

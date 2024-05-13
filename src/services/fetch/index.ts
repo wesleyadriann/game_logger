@@ -3,7 +3,7 @@ export const fetchApi = async <T = unknown>(
 ) => {
   const mergedOptions: RequestInit = {
     ...init,
-    next: { revalidate: 3600 },
+    next: { revalidate: process.env.NODE_ENV === "development" ? 1 : 3600 },
     headers: {
       "Content-Type": "application/json",
       ...init?.headers,

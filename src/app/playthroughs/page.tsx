@@ -1,9 +1,10 @@
+import React from "react";
 import Image from "next/image";
 
 import { IPlaythroughs } from "~/types/collections";
 
 import { fetchApi } from "~/services/fetch";
-import React from "react";
+import { logger } from "~/utils/logger";
 
 const getPlaythroughs = async () => {
   try {
@@ -12,7 +13,9 @@ const getPlaythroughs = async () => {
     );
 
     return response.data;
-  } catch (error) {
+  } catch (_error) {
+    const error = _error as Error;
+    logger("Error fetching playthroughs", error?.message);
     return { playthroughs: [] };
   }
 };
