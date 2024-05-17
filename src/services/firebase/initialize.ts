@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { initializeApp as initializeAdminApp } from "firebase-admin/app";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -10,3 +11,4 @@ const firebaseConfig = {
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
+export const firebaseAdminApp = initializeAdminApp(firebaseConfig, "adminApp");

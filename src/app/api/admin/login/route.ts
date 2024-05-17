@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
       body.email,
       body.password
     );
-    const user = userCredential.user;
-    return NextResponse.json({ user }, { status: 200 });
+    const idToken = await userCredential.user.getIdToken();
+    return NextResponse.json({ idToken }, { status: 200 });
   } catch (_error) {
     const error = _error as AuthError;
     const errorCode = error.code;
