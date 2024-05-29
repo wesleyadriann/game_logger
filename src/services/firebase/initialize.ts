@@ -1,5 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { initializeApp as initializeAdminApp } from "firebase-admin/app";
+import {
+  initializeApp as initializeAdminApp,
+  getApps,
+  deleteApp,
+} from "firebase-admin/app";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -11,4 +15,12 @@ const firebaseConfig = {
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
-export const firebaseAdminApp = initializeAdminApp(firebaseConfig, "adminApp");
+
+const ADMIN_APP = "adminApp";
+const exists = getApps().find((app) => app.name === ADMIN_APP);
+if (!!exists?.name) {
+  console.log("Firebase Admin App already exists");
+  deleteApp(exists);
+}
+
+export const firebaseAdminApp = initializeAdminApp(firebaseConfig, ADMIN_APP);

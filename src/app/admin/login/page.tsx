@@ -1,30 +1,46 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { fetchApi } from "~/services/fetch";
+import { saveIdToken } from "~/utils/authClient";
+
+import { Loader, Button } from "~/components";
 
 const doLogin = async (email: string, password: string) => {
-  try {
-    const response = await fetchApi(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/login`,
-      { method: "POST", body: JSON.stringify({ email, password }) }
-    );
-    return response.data;
-  } catch (error) {
-    return {};
-  }
+  const response = await fetchApi<{ idToken: string }>(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/login`,
+    { method: "POST", body: JSON.stringify({ email, password }) }
+  );
+  return response.data;
 };
 
 export default function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const router = useRouter();
 
   const handlerLogin = useCallback(
-    (event: React.FormEvent) => {
+    async (event: React.FormEvent) => {
       event.preventDefault();
-      doLogin(credentials.email, credentials.password);
+      setIsLoading(true);
+      setHasError(false);
+      try {
+        const response = await doLogin(credentials.email, credentials.password);
+        saveIdToken(response.idToken);
+        router.push("/admin/games");
+      } catch (_error) {
+        const error: Error = _error as Error;
+        console.log("Error to login", error.message);
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
     },
-    [credentials.email, credentials.password]
+    [credentials.email, credentials.password, router]
   );
 
   const handlerChange = useCallback(
@@ -47,7 +63,8 @@ export default function Login() {
         <label className="flex flex-col gap-2">
           Email
           <input
-            className="border border-gray-300 p-2 rounded text-black"
+            className="border border-gray-300 p-2 rounded text-black disabled:bg-slate-400 disabled:border-slate-400"
+            disabled={isLoading}
             name="email"
             onChange={handlerChange}
             type="email"
@@ -56,15 +73,19 @@ export default function Login() {
         <label className="flex flex-col gap-2">
           Senha
           <input
-            className="border border-gray-300 p-2 rounded text-black"
+            className="border border-gray-300 p-2 rounded text-black disabled:bg-slate-400 disabled:border-slate-400"
+            disabled={isLoading}
             name="password"
             onChange={handlerChange}
             type="password"
           />
         </label>
-        <button className="bg-blue-500 p-2 rounded text-white" type="submit">
+        <Button type="submit" isLoading={isLoading}>
           Entrar
-        </button>
+        </Button>
+        {hasError && (
+          <div className="text-red-500">Houve um erro para efetuar o login</div>
+        )}
       </form>
     </main>
   );
