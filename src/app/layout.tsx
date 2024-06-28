@@ -5,6 +5,7 @@ import "./globals.css";
 import Link from "next/link";
 
 import { getIdToken } from "~/app/auth";
+import { ROUTES } from "~/utils/routes";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
@@ -31,24 +32,36 @@ export default function RootLayout({
       >
         <header className="flex justify-between m-auto max-w-screen-xl p-4 text-xl text-white/75">
           <div className="flex gap-4">
-            <Link className="hover:text-white/100" href="/games">
-              Games
-            </Link>
-            <Link className="hover:text-white/100" href="/playthroughs">
+            <Link
+              className="hover:text-white/100 hover:underline"
+              href={ROUTES.playthroughs}
+            >
               Jogadas
+            </Link>
+            <Link
+              className="hover:text-white/100 hover:underline"
+              href={ROUTES.games}
+            >
+              Jogos
             </Link>
             {idToken && (
               <>
-                <Link className="hover:text-white/100" href="/admin/games">
-                  Admin jogos
-                </Link>
-                <Link className="hover:text-white/100" href="/admin/games">
+                <Link
+                  className="hover:text-white/100 hover:underline"
+                  href={ROUTES.adminPlaythroughs}
+                >
                   Admin jogadas
+                </Link>
+                <Link
+                  className="hover:text-white/100 hover:underline"
+                  href={ROUTES.adminGames}
+                >
+                  Admin jogos
                 </Link>
               </>
             )}
           </div>
-          {!idToken && <Link href="/admin/login">Login</Link>}
+          {!idToken && <Link href={ROUTES.adminLogin}>Entrar</Link>}
         </header>
         {children}
       </body>

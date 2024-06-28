@@ -1,3 +1,8 @@
+import { redirect } from "next/navigation";
+
+import { ROUTES } from "~/utils/routes";
+
 export default function Home() {
-  return <main>Bem Vindo !</main>;
+  redirect(ROUTES.playthroughs);
+  return <main></main>;
 }
