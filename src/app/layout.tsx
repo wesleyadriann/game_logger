@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import Link from "next/link";
+import { ptBR } from "date-fns/locale";
+import { setDefaultOptions } from "date-fns";
 
 import "./globals.css";
-import Link from "next/link";
 
 import { getIdToken } from "~/app/auth";
 import { ROUTES } from "~/utils/routes";
+
+setDefaultOptions({ locale: ptBR });
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
