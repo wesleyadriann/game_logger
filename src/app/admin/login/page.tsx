@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 
 import { fetchApi } from "~/services/fetch";
 import { saveIdToken } from "~/utils/authClient";
+import { ROUTES } from "~/utils/routes";
 
-import { Loader, Button } from "~/components";
+import { Button } from "~/components";
 
 const doLogin = async (email: string, password: string) => {
   const response = await fetchApi<{ idToken: string }>(
@@ -31,7 +32,7 @@ export default function Login() {
       try {
         const response = await doLogin(credentials.email, credentials.password);
         saveIdToken(response.idToken);
-        router.push("/admin/games");
+        router.push(ROUTES.adminPlaythroughs);
       } catch (_error) {
         const error: Error = _error as Error;
         console.log("Error to login", error.message);

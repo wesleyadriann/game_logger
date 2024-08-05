@@ -23,7 +23,7 @@ export interface IPlaythroughs {
   mid_date: string;
   platform: IPlatforms;
   start_date: string;
-  status: "completed" | "playing" | "backlog";
+  status: "completed" | "played" | "playing" | "backlog";
   total_hours: number;
   total_minutes: number;
   id: string;

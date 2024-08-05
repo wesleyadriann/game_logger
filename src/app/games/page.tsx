@@ -23,7 +23,7 @@ export default async function Games() {
   return (
     <main className="flex flex-col gap-4 p-4 m-auto max-w-screen-xl">
       <h1 className="font-bold text-4xl">Jogos Cadastrados</h1>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-3">
         {games.map((game) => (
           <div
             key={game.id}
@@ -31,7 +31,7 @@ export default async function Games() {
             duration-300
             flex
             group
-            h-64
+            h-40
             hover:scale-105
             items-center
             justify-center
@@ -41,7 +41,7 @@ export default async function Games() {
             relative
             shadow-md
             transition-transform
-            w-48"
+            w-32"
           >
             <span
               className="
@@ -54,7 +54,7 @@ export default async function Games() {
               opacity-0
               p-1
               select-none
-              text-2xl
+              text-lg
               transition-all
               translate-y-10
               w-full
